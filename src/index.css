@@ -1,0 +1,46 @@
+/* src/index.css */
+/* 1. Import Font chữ Cinzel (Dòng này phải ở trên cùng) */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 2. Cấu hình nền và font chữ mặc định */
+body {
+  /* Xóa bg-gradient cũ để không bị đè lên ảnh nền */
+  @apply min-h-screen font-fantasy text-mystic-cream;
+  
+  /* Reset lề và font dự phòng */
+  margin: 0;
+  font-family: 'Cinzel', serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto';
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 3. Tùy chỉnh thanh cuộn (Scrollbar) cho đẹp */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2); 
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.4); /* Màu vàng kim mờ */
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 215, 0, 0.8); 
+}
+
+/* 4. Class tiện ích (Đã xóa bỏ nền đen của fantasy-card để trong suốt) */
+@layer components {
+  /* Input trong suốt, bo góc, phát sáng khi bấm vào */
+  .fantasy-input {
+    @apply w-full p-3 rounded-2xl bg-black/40 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-mystic-gold focus:bg-black/60 transition-all backdrop-blur-sm shadow-lg;
+  }
+  
+  /* Nút bấm hiệu ứng đá quý */
+  .fantasy-button {
+    @apply py-2 px-4 rounded-full border border-white/20 font-bold transition-all hover:scale-105 active:scale-95 hover:shadow-[0_0_15px_rgba(255,215,0,0.5)];
+  }
+}
