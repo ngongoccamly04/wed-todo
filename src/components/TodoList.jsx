@@ -11,13 +11,13 @@ import CalendarView from './Todo/CalendarView';
 import GalleryView from './Todo/GalleryView'; 
 import Statistics from './Todo/Statistics'; 
 
-const TodoList = ({ onProgressUpdate }) => {
+const TodoList = ({ viewMode, timeFilter }) => {
   const { currentUser } = useAuth();
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  const [viewMode, setViewMode] = useState('kanban'); // 'kanban', 'list', 'calendar', 'gallery'
-  const [timeFilter, setTimeFilter] = useState('all'); // 'today', 'week', 'month', 'year'
+
+
   const [sortBy, setSortBy] = useState('due-date'); // 'name', 'due-date', 'priority', 'created'
 
   // Lấy dữ liệu

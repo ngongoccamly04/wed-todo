@@ -1,101 +1,148 @@
-// src/Login.jsx
+// src/Login.jsx - Cập nhật với design mới
 import React, { useState } from 'react';
 import { useAuth } from './context/AuthContext';
+import { FaGoogle, FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 
 const Login = () => {
   const { loginWithGoogle, signup, login } = useAuth();
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const [error, setError] = useState('');
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     try {
       if (isRegistering) {
         await signup(email, password);
-        alert("✨ HỒ SƠ ĐÃ ĐƯỢC TẠO THÀNH CÔNG!");
+        // Có thể cần cập nhật displayName cho user
       } else {
         await login(email, password);
       }
     } catch (err) {
-      console.error(err);
-      if (err.code === 'auth/email-already-in-use') setError("VỊ NÀY ĐÃ TỒN TẠI TRONG PHÁP GIỚI.");
-      else if (err.code === 'auth/invalid-credential') setError("SAI EMAIL HOẶC MẬT CHÚ.");
-      else if (err.code === 'auth/weak-password') setError("MẬT CHÚ QUÁ YẾU. HÃY MẠNH MẼ HƠN.");
-      else setError("Error: " + err.message);
+      setError(err.message);
     }
   };
 
   return (
-    <div 
-      className="min-h-screen flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat bg-fixed font-fantasy"
-      style={{ backgroundImage: "url('/images/1.png')" }}
-    >
-      <div className="w-full max-w-md p-6 text-center">
-        
-        <h2 className="text-5xl font-bold text-mystic-gold mb-2 drop-shadow-[0_4px_4px_rgba(0,0,0,0.9)] tracking-wider">
-          {isRegistering ? 'Khởi Tạo' : 'Cổng Vào'}
-        </h2>
-        <p className="text-white mb-10 text-lg drop-shadow-md opacity-90 font-bold">
-          "QUẢN LÝ HÀNH TRÌNH CỦA BẠN"
-        </p>
-        
-        {error && (
-          <div className="bg-red-900/60 border border-red-400 text-white p-4 rounded-2xl mb-6 backdrop-blur-md">
-            ⚠️ {error}
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          {/* Logo/Header */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-2xl mb-4">
+              <span className="text-3xl">📋</span>
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              {isRegistering ? 'Create Account' : 'Welcome Back'}
+            </h1>
+            <p className="text-gray-600">
+              {isRegistering ? 'Start managing your tasks' : 'Sign in to continue'}
+            </p>
           </div>
-        )}
 
-        <form onSubmit={handleLogin} className="flex flex-col gap-6 mb-8">
-          <input 
-            type="email" 
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            // BO GÓC MẠNH (rounded-2xl)
-            className="w-full p-4 rounded-2xl bg-black/40 border border-white/30 text-white placeholder-gray-300 focus:outline-none focus:border-mystic-gold focus:bg-black/60 transition-all backdrop-blur-md shadow-lg text-lg"
-            placeholder="EMAIL CỦA BẠN..."
-          />
-          
-          <input 
-            type="password" 
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full p-4 rounded-2xl bg-black/40 border border-white/30 text-white placeholder-gray-300 focus:outline-none focus:border-mystic-gold focus:bg-black/60 transition-all backdrop-blur-md shadow-lg text-lg"
-            placeholder="MẬT CHÚ..."
-          />
+          {/* Error Message */}
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+              {error}
+            </div>
+          )}
 
-          <button type="submit" className="w-full mt-2 text-xl py-4 rounded-full hover:scale-105 shadow-[0_0_20px_rgba(255,215,0,0.3)] border border-mystic-gold/50 bg-gradient-to-r from-mystic-purple/80 to-mystic-blue/80 text-mystic-gold font-bold transition-all">
-            {isRegistering ? '✨ TẠO!' : '🌌 TIẾN VÀO!'}
-          </button>
-        </form>
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {isRegistering && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Full Name
+                </label>
+                <div className="relative">
+                  <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="John Doe"
+                  />
+                </div>
+              </div>
+            )}
 
-        <div className="flex items-center gap-4 my-8">
-            <div className="h-px bg-white/50 flex-1 shadow-sm"></div>
-            <span className="text-mystic-gold text-sm drop-shadow-md font-bold">HOẶC</span>
-            <div className="h-px bg-white/50 flex-1 shadow-sm"></div>
-        </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Email Address
+              </label>
+              <div className="relative">
+                <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="you@example.com"
+                />
+              </div>
+            </div>
 
-        <button 
-          onClick={loginWithGoogle} 
-          className="w-full bg-white/10 hover:bg-white/20 border border-white/40 text-white py-3 px-4 rounded-full flex items-center justify-center gap-3 transition-all backdrop-blur-md font-bold tracking-wide"
-        >
-          <span>🔮</span> Liên kết Google
-        </button>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="••••••••"
+                />
+              </div>
+            </div>
 
-        <p className="mt-8 text-base text-white drop-shadow-md font-bold">
-          {isRegistering ? 'Kẻ hồi quy?' : 'Người mới đến?'}
-          <span 
-            onClick={() => setIsRegistering(!isRegistering)} 
-            className="text-mystic-gold ml-2 cursor-pointer hover:text-white transition-colors underline decoration-mystic-gold/50"
+            <button
+              type="submit"
+              className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+            >
+              {isRegistering ? 'Create Account' : 'Sign In'}
+            </button>
+          </form>
+
+          {/* Divider */}
+          <div className="flex items-center my-6">
+            <div className="flex-1 border-t border-gray-300"></div>
+            <span className="px-4 text-gray-500 text-sm">OR</span>
+            <div className="flex-1 border-t border-gray-300"></div>
+          </div>
+
+          {/* Google Sign In */}
+          <button
+            onClick={loginWithGoogle}
+            className="w-full py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-3"
           >
-            {isRegistering ? 'Trở lại?' : 'Danh phận mới?'}
-          </span>
-        </p>
+            <FaGoogle className="text-red-500" />
+            <span>Continue with Google</span>
+          </button>
+
+          {/* Switch form */}
+          <div className="text-center mt-6">
+            <p className="text-gray-600">
+              {isRegistering ? 'Already have an account?' : "Don't have an account?"}
+              <button
+                type="button"
+                onClick={() => setIsRegistering(!isRegistering)}
+                className="ml-2 text-blue-600 hover:text-blue-700 font-medium"
+              >
+                {isRegistering ? 'Sign in' : 'Create one'}
+              </button>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
