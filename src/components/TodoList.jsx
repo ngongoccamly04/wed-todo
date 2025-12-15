@@ -6,7 +6,7 @@ import { collection, query, where, onSnapshot, updateDoc, doc } from 'firebase/f
 import TodoForm from './Todo/TodoForm';
 import TodoCard from './Todo/TodoCard'; 
 
-import KanbanBoard from './Todo/KanbanBoard'; 
+
 import CalendarView from './Todo/CalendarView'; 
 import GalleryView from './Todo/GalleryView'; 
 import Statistics from './Todo/Statistics'; 
