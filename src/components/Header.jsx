@@ -8,7 +8,11 @@ import {
   FaSpinner,
   FaArrowUp,
   FaArrowDown,
-  FaCheck
+  FaCheck,
+  FaThLarge,      // Thêm cho kanban
+  FaListUl,       // Thêm cho list
+  FaCalendarAlt,  // Thêm cho calendar
+  FaImage  
 } from 'react-icons/fa';
 
 const Header = ({ currentUser, viewMode, setViewMode }) => {

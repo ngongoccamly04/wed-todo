@@ -1,7 +1,7 @@
 // src/components/Sidebar.jsx
 import React from 'react';
 import { 
-  FaTableColumns, 
+  FaThLarge,        // Thay FaTableColumns bằng FaThLarge (tương tự)
   FaArrowRight, 
   FaSun, 
   FaCalendarWeek, 
@@ -9,7 +9,9 @@ import {
   FaCalendarDay,
   FaChartPie,
   FaUser,
-  FaSignOutAlt
+  FaSignOutAlt,
+  FaListUl,         // Thêm cho list view
+  FaImage           // Thêm cho gallery view
 } from 'react-icons/fa';
 
 const Sidebar = ({ 
@@ -21,7 +23,7 @@ const Sidebar = ({
   setTimeFilter 
 }) => {
   const tabs = [
-    { id: 'status', label: 'Status', icon: <FaTableColumns />, view: 'kanban' },
+    { id: 'status', label: 'Status', icon: <FaThLarge />, view: 'kanban' },
     { id: 'future', label: 'Tasks to come', icon: <FaArrowRight />, view: 'list' },
     { id: 'today', label: 'Today', icon: <FaSun />, filter: 'today' },
     { id: 'week', label: 'This week', icon: <FaCalendarWeek />, filter: 'week' },
@@ -29,6 +31,7 @@ const Sidebar = ({
     { id: 'year', label: 'This year', icon: <FaCalendarDay />, filter: 'year' },
     { id: 'calendar', label: 'Calendar view', icon: <FaCalendarDay />, view: 'calendar' },
   ];
+
 
   const handleTabClick = (tab) => {
     if (tab.view) setViewMode(tab.view);
