@@ -4,7 +4,13 @@ import { useAuth } from '../context/AuthContext';
 import { db } from '../firebase';
 import { collection, query, where, onSnapshot, updateDoc, doc } from 'firebase/firestore';
 import TodoForm from './Todo/TodoForm';
-import TodoCard from './Todo/TodoCard'; // Component mới
+import TodoCard from './Todo/TodoCard'; 
+
+import TodoForm from './Todo/TodoForm'; 
+import KanbanBoard from './Todo/KanbanBoard'; 
+import CalendarView from './Todo/CalendarView'; 
+import GalleryView from './Todo/GalleryView'; 
+import Statistics from './Todo/Statistics'; 
 
 const TodoList = ({ onProgressUpdate }) => {
   const { currentUser } = useAuth();
