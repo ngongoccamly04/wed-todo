@@ -1,6 +1,6 @@
 // src/components/Login.jsx - CẬP NHẬT NÚT GOOGLE
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from 'src/context/AuthContext';
 import { FcGoogle } from 'react-icons/fc'; // Icon Google đẹp hơn
 
 const Login = () => {
