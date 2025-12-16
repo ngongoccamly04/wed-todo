@@ -22,20 +22,20 @@ const Login = () => {
         // ĐĂNG KÝ với name
         await signup(email, password, name);
         alert("✨ TÀI KHOẢN ĐÃ ĐƯỢC TẠO THÀNH CÔNG!");
-        // Không cần navigate vì onAuthStateChanged sẽ tự động chuyển
+
       } else {
         // ĐĂNG NHẬP
         await login(email, password);
-        // Không cần navigate vì onAuthStateChanged sẽ tự động chuyển
+
       }
     } catch (err) {
       console.error(err);
       if (err.code === 'auth/email-already-in-use') {
-        setError("VỊ NÀY ĐÃ TỒN TẠI TRONG PHÁP GIỚI.");
+        setError("Đã tồn tại tài khoản này.");
       } else if (err.code === 'auth/invalid-credential') {
-        setError("SAI EMAIL HOẶC MẬT CHÚ.");
+        setError("SAI EMAIL HOẶC MẬT KHẨU.");
       } else if (err.code === 'auth/weak-password') {
-        setError("MẬT CHÚ QUÁ YẾU. HÃY MẠNH MẼ HƠN.");
+        setError("đỘ BẢO MẬT QUÁ YẾU.");
       } else {
         setError("Lỗi: " + err.message);
       }
