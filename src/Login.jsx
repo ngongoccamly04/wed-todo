@@ -2,9 +2,11 @@
 import React, { useState } from 'react';
 import { useAuth } from './context/AuthContext';
 import { FaGoogle, FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom'; 
 
 const Login = () => {
   const { loginWithGoogle, signup, login } = useAuth();
+  const navigate = useNavigate(); 
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,13 +19,35 @@ const Login = () => {
     setError('');
     try {
       if (isRegistering) {
-        await signup(email, password);
-        // Có thể cần cập nhật displayName cho user
+        // ĐĂNG KÝ với name
+        await signup(email, password, name);
+        alert("✨ TÀI KHOẢN ĐÃ ĐƯỢC TẠO THÀNH CÔNG!");
+        // Không cần navigate vì onAuthStateChanged sẽ tự động chuyển
       } else {
+        // ĐĂNG NHẬP
         await login(email, password);
+        // Không cần navigate vì onAuthStateChanged sẽ tự động chuyển
       }
     } catch (err) {
-      setError(err.message);
+      console.error(err);
+      if (err.code === 'auth/email-already-in-use') {
+        setError("VỊ NÀY ĐÃ TỒN TẠI TRONG PHÁP GIỚI.");
+      } else if (err.code === 'auth/invalid-credential') {
+        setError("SAI EMAIL HOẶC MẬT CHÚ.");
+      } else if (err.code === 'auth/weak-password') {
+        setError("MẬT CHÚ QUÁ YẾU. HÃY MẠNH MẼ HƠN.");
+      } else {
+        setError("Lỗi: " + err.message);
+      }
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await loginWithGoogle();
+      // Không cần navigate vì onAuthStateChanged sẽ tự động chuyển
+    } catch (err) {
+      setError("Lỗi đăng nhập Google: " + err.message);
     }
   };
 

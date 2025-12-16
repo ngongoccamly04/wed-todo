@@ -6,7 +6,8 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
   createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword 
+  signInWithEmailAndPassword,
+  updateProfile  // THÊM DÒNG NÀY
 } from 'firebase/auth';
 import { auth } from '../firebase';
 
@@ -16,8 +17,29 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const signup = (email, password) => {
-    return createUserWithEmailAndPassword(auth, email, password);
+  // SỬA HÀM SIGNUP - Thêm cập nhật displayName
+  const signup = async (email, password, displayName = '') => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      
+      // Cập nhật displayName nếu có
+      if (displayName) {
+        await updateProfile(userCredential.user, {
+          displayName: displayName
+        });
+        
+        // Cập nhật lại currentUser state
+        setCurrentUser({
+          ...userCredential.user,
+          displayName: displayName
+        });
+      }
+      
+      return userCredential;
+    } catch (error) {
+      console.error("Signup error:", error);
+      throw error;
+    }
   };
 
   const login = (email, password) => {
@@ -35,12 +57,12 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log("Auth state changed:", user);
       setCurrentUser(user);
-      setLoading(false); 
-      console.log("User hiện tại:", user?.email); 
+      setLoading(false);
     });
 
-    return unsubscribe; 
+    return unsubscribe;
   }, []);
 
   const value = {
@@ -53,7 +75,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {!loading && children}  {/* Chỉ render children khi không loading */}
     </AuthContext.Provider>
   );
 };
